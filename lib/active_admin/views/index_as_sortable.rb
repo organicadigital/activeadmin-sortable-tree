@@ -39,6 +39,11 @@ module ActiveAdmin
         @default_actions = true
       end
 
+      def aditional_actions(&block)
+        @aditional_actions = true
+        @aditional_actions_block = block
+      end
+
 
       protected
 
@@ -74,7 +79,11 @@ module ActiveAdmin
               call_method_or_proc_on(item, @label)
             end
             div :class => "cell right" do
-              build_default_actions(item) if @default_actions
+              c = "".html_safe
+              c << @aditional_actions_block.call(item) if @aditional_actions
+              c << build_default_actions(item) if @default_actions
+
+              c
             end
           end
 
