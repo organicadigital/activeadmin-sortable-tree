@@ -47,6 +47,18 @@ $ ->
           url: $this.data("sortable-url")
           type: "post"
           data: $this.nestedSortable("serialize")
+        .error (error)->
+          errors = JSON.parse(error.responseText)
+          message = ""
+
+          $.each errors, ->
+            el = this
+            $.each el, ->
+              message += this[0] + "\n"
+
+          alert message
+          window.location.reload()
+
         .always ->
           $this.find('.item').each (index) ->
             if index % 2
