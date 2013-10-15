@@ -54,12 +54,15 @@ module ActiveAdmin
                    else
                      url_for([:sort, ActiveAdmin.application.default_namespace, @resource_name.pluralize])
                    end
-        data_options = {
-          "data-sortable-type" => (@options[:tree] ? "tree" : "list"),
-          "data-sortable-url" => sort_url,
-        }
-        data_options["data-max-levels"] = @options[:max_levels]
-        data_options["data-protect-root"] = true if @options[:protect_root]
+
+        if authorized? :edit, @resource_class
+          data_options = {
+            "data-sortable-type" => (@options[:tree] ? "tree" : "list"),
+            "data-sortable-url" => sort_url,
+          }
+          data_options["data-max-levels"] = @options[:max_levels]
+          data_options["data-protect-root"] = true if @options[:protect_root]
+        end
 
         ol data_options do
           @collection.each do |item|

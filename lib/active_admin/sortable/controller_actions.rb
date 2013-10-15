@@ -34,7 +34,7 @@ module ActiveAdmin::Sortable
             if options[:tree]
               record.send "#{options[:parent_method]}=", parent_record
             end
-            errors << {record.id => record.errors} if !record.save
+            errors << {record.id => record.errors.full_messages} if !record.save
           end
         end
         if errors.empty?
